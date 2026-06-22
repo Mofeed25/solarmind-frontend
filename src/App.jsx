@@ -6,7 +6,7 @@ function App() {
   const [metrics, setMetrics] = useState(null);
   const [chatMessage, setChatMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([
-    { role: 'assistant', text: 'مرحباً بك في SolarMind AI. أنا مستشارك الذكي المخصص لقطاع الطاقة الشمسية لشركة انديكيتورز، كيف يمكنني مساعدتك في تحليل البيانات المتوفرة حالياً؟' }
+{ role: 'assistant', text: 'مرحباً بك. أنا مستشارك المالي والإداري المخصص لقطاع الطاقة الشمسية، كيف يمكنني مساعدتك؟' } 
   ]);
   const [loading, setLoading] = useState(false);
   const [fetchingData, setFetchingData] = useState(true);
@@ -203,10 +203,9 @@ function App() {
               <div className="w-3 h-3 rounded-full bg-amber-400"></div>
               <h2 className="font-black text-lg flex items-center gap-2">
                 <MessageSquare className="w-5 h-5 text-amber-400" />
-                كبير مستشاري ذكاء الأعمال الرأسي | SolarMind AI
+                مستشارك المالي والإداري | SolarMind AI
               </h2>
             </div>
-            <div className="text-xs text-slate-400 font-medium">شركة انديكيتورز للإستشارات</div>
           </div>
 
           <div className="flex-1 p-6 overflow-y-auto space-y-4 bg-slate-900/50">
