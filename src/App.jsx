@@ -18,7 +18,7 @@ function App() {
   const fetchDashboardData = async () => {
     setFetchingData(true);
     try {
-      const metricsRes = await fetch('http://127.0.0.1:8000/api/metrics');
+const metricsRes = await fetch(`${import.meta.env.VITE_API_URL}/api/metrics`);
       const metricsData = await metricsRes.json();
       setMetrics(metricsData);
     } catch (error) {
@@ -35,12 +35,11 @@ function App() {
     setChatHistory(prev => [...prev, { role: 'user', text: queryText }]);
     setLoading(true);
 
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: queryText }),
-      });
+   const response = await fetch(`${import.meta.env.VITE_API_URL}/api/chat`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ message: queryText }),
+});
       const data = await response.json();
       const botReply = data.reply || 'لم أتمكن من استخلاص إجابة دقيقة من السجلات الحالية.';
       setChatHistory(prev => [...prev, { role: 'assistant', text: botReply }]);
