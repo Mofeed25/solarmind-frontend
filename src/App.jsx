@@ -11,6 +11,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [fetchingData, setFetchingData] = useState(true);
 
+  // الحل للمشكلة الثانية: تعريف الرابط مع وضع احتياطي لضمان نجاح الـ Build
+  const API_URL = import.meta.env.VITE_API_URL || 'https://solarmind-backend.onrender.com';
+
   useEffect(() => {
     fetchDashboardData();
   }, []);
@@ -18,7 +21,7 @@ function App() {
   const fetchDashboardData = async () => {
     setFetchingData(true);
     try {
-const metricsRes = await fetch(`${import.meta.env.VITE_API_URL}/api/metrics`);
+      const metricsRes = await fetch(`${API_URL}/api/metrics`);
       const metricsData = await metricsRes.json();
       setMetrics(metricsData);
     } catch (error) {
@@ -35,11 +38,13 @@ const metricsRes = await fetch(`${import.meta.env.VITE_API_URL}/api/metrics`);
     setChatHistory(prev => [...prev, { role: 'user', text: queryText }]);
     setLoading(true);
 
-   const response = await fetch(`${import.meta.env.VITE_API_URL}/api/chat`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ message: queryText }),
-});
+    // الحل للمشكلة الأولى والثانية: تصحيح القوس وإضافة الرابط الآمن
+    try {
+      const response = await fetch(`${API_URL}/api/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: queryText }),
+      });
       const data = await response.json();
       const botReply = data.reply || 'لم أتمكن من استخلاص إجابة دقيقة من السجلات الحالية.';
       setChatHistory(prev => [...prev, { role: 'assistant', text: botReply }]);
@@ -212,7 +217,6 @@ const metricsRes = await fetch(`${import.meta.env.VITE_API_URL}/api/metrics`);
                     ? 'bg-amber-500 text-slate-950 font-bold rounded-tr-none' 
                     : 'bg-slate-800 text-slate-100 border border-slate-700 rounded-tl-none'
                 }`}>
-                  {/* 🟢 التعديل: استدعاء دالة التحليل لإظهار الأزرار التفاعلية */}
                   {renderMessageText(msg)}
                 </div>
               </div>
